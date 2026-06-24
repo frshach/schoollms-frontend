@@ -49,7 +49,7 @@ export default function Assignments() {
       setCourses(data.courses || []);
     } catch (_) {}
   };
-  
+
   useEffect(() => {
     fetchAll();
     fetchCourses();
@@ -118,7 +118,7 @@ export default function Assignments() {
                   <select className="form-control" value={form.courseId} onChange={e => setForm({ ...form, courseId: e.target.value })} required>
                     <option value="">-- Select Course --</option>
                     {courses.map((c) => (
-                      <option key={c._id} value={c._id}>{c.courseName}</option>
+                      <option key={c._id} value={c._id}>{c.courseCode} - {c.courseName}</option>
                     ))}
                   </select>
                 </div>
