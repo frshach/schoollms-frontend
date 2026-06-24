@@ -6,6 +6,7 @@ import API from '../utils/api';
 export default function Announcements() {
   const { user } = useAuth();
   const [announcements, setAnnouncements] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [form, setForm] = useState({ courseId: '', title: '', message: '' });
   const [editForm, setEditForm] = useState({});
   const [editingId, setEditingId] = useState(null);
@@ -18,7 +19,11 @@ export default function Announcements() {
     } catch (_) {}
   };
 
-  useEffect(() => { fetchAnnouncements(); }, []);
+  useEffect(() => {
+  fetchAnnouncements();
+  fetchCourses();
+}, []);
+  
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -52,6 +57,15 @@ export default function Announcements() {
       fetchAnnouncements();
     } catch (_) {}
   };
+
+  const fetchCourses = async () => {
+  try {
+    const { data } = await API.get('/courses');
+    setCourses(data.courses || []);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   return (
     <Layout>
@@ -88,7 +102,28 @@ export default function Announcements() {
               <div>
                 <div className="mb-2">
                   <label className="form-label small fw-semibold text-secondary">Course ID</label>
-                  <input type="text" className="form-control form-control-sm" value={editForm.courseId || ''} onChange={e => setEditForm({ ...editForm, courseId: e.target.value })} />
+                  <select
+                    className="form-control"
+                    value={form.courseId}
+                    onChange={e => setForm({
+                      ...form,
+                      courseId: e.target.value
+                    })}
+                    required
+                  >
+                    <option value="">-- Select Course --</option>
+
+                    {courses.map(course => (
+                      <option
+                        key={course._id}
+                        value={course._id}
+                      >
+                        {course.courseCode
+                          ? `${course.courseCode} - ${course.courseName}`
+                          : course.courseName}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="mb-2">
                   <label className="form-label small fw-semibold text-secondary">Title</label>

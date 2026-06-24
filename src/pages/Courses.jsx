@@ -52,6 +52,15 @@ export default function Courses() {
             {error && <div className="alert alert-danger small rounded-3 border-0">{error}</div>}
             <form onSubmit={handleAdd}>
               <div className="mb-3">
+              <label>Course Code</label>
+              <input
+                type="text"
+                className="form-control"
+                value="Auto Generated"
+                disabled
+              />
+            </div>
+              <div className="mb-3">
                 <label className="form-label small fw-semibold text-secondary">Course Name</label>
                 <input type="text" className="form-control rounded-3" placeholder="e.g., Object Oriented Systems Design"
                   value={form.courseName} onChange={e => setForm({ ...form, courseName: e.target.value })} required />
@@ -78,6 +87,7 @@ export default function Courses() {
               <thead style={{ backgroundColor: '#f1f5f9' }}>
                 <tr>
                   <th className="ps-4" style={{ color: '#475569', fontWeight: 600 }}>ID</th>
+                  <th style={{ color: '#475569', fontWeight: 600 }}>Course ID</th>
                   <th style={{ color: '#475569', fontWeight: 600 }}>Course Name</th>
                   <th className="pe-4" style={{ color: '#475569', fontWeight: 600 }}>Description</th>
                 </tr>
@@ -86,6 +96,7 @@ export default function Courses() {
                 {courses.length > 0 ? courses.map((c, i) => (
                   <tr key={c._id}>
                     <td className="ps-4 fw-semibold text-secondary">#{i + 1}</td>
+                    <td className="fw-bold text-dark">{c.courseCode}</td>
                     <td className="fw-bold text-dark">{c.courseName}</td>
                     <td className="pe-4 text-muted small">{c.description}</td>
                   </tr>

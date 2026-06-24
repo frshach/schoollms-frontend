@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || '//schoollms-api.onrender.com/api',
+  baseURL: process.env.REACT_APP_API_URL || 'https://schoollms-backend-q0g8.onrender.com/api',
 });
 
 // Attach JWT token to every request automatically
