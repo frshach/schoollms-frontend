@@ -43,17 +43,17 @@ export default function Assignments() {
     } catch (_) {}
   };
 
-  useEffect(() => {
-    fetchAll();
-    fetchCourses();
-  }, []);
-
   const fetchCourses = async () => {
     try {
       const { data } = await API.get('/courses');
       setCourses(data.courses || []);
     } catch (_) {}
   };
+  
+  useEffect(() => {
+    fetchAll();
+    fetchCourses();
+  }, []);
 
 
   const handleAddAssignment = async (e) => {
