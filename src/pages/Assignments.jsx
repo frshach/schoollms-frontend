@@ -14,6 +14,7 @@ export default function Assignments() {
   const [error, setError] = useState('');
   const [submitErrors, setSubmitErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [courses, setCourses] = useState([]);
   const fileRefs = useRef({});
 
   const fetchAll = async () => {
@@ -42,7 +43,18 @@ export default function Assignments() {
     } catch (_) {}
   };
 
-  useEffect(() => { fetchAll(); }, []);
+  useEffect(() => {
+    fetchAll();
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const { data } = await API.get('/courses');
+      setCourses(data.courses || []);
+    } catch (_) {}
+  };
+
 
   const handleAddAssignment = async (e) => {
     e.preventDefault();
@@ -102,8 +114,13 @@ export default function Assignments() {
             <form onSubmit={handleAddAssignment}>
               <div className="row g-3">
                 <div className="col-md-2">
-                  <label className="small fw-semibold text-secondary">Course ID</label>
-                  <input type="text" className="form-control" placeholder="Course ID" value={form.courseId} onChange={e => setForm({ ...form, courseId: e.target.value })} required />
+                  <label className="small fw-semibold text-secondary">Course</label>
+                  <select className="form-control" value={form.courseId} onChange={e => setForm({ ...form, courseId: e.target.value })} required>
+                    <option value="">-- Select Course --</option>
+                    {courses.map((c) => (
+                      <option key={c._id} value={c._id}>{c.courseName}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="col-md-4">
                   <label className="small fw-semibold text-secondary">Assignment Title</label>
